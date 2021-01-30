@@ -1,0 +1,21 @@
+{
+ "name": "RssSourceConnectorSportv2",
+ "config": {
+   "connector.class": "org.kaliy.kafka.connect.rss.RssSourceConnector",
+   "rss.urls": "https://e00-marca.uecdn.es/rss/portada.xml https://www.sport.es/es/rss/barca/rss.xml https://www.mundodeportivo.com/mvc/feed/rss/",
+   "tasks.max": "3",
+   "topic": "all_sports_topics_v2",
+   "value.converter":"org.apache.kafka.connect.json.JsonConverter",
+   "value.converter.schemas.enable":"false",
+   "key.ignore" : "false",
+   "transforms" : "createKey, extractFeed, extractTitle",
+   "transforms.createKey.type":"org.apache.kafka.connect.transforms.ValueToKey",
+   "transforms.createKey.fields":"feed",
+   "transforms.extractFeed.type":"org.apache.kafka.connect.transforms.ExtractField$Key",
+   "transforms.extractFeed.field":"feed",
+   "transforms.extractTitle.type":"org.apache.kafka.connect.transforms.ExtractField$Key",
+   "transforms.extractTitle.field":"url",
+   "key.converter":"org.apache.kafka.connect.json.JsonConverter",
+   "key.converter.schemas.enable":"false"
+ }
+}

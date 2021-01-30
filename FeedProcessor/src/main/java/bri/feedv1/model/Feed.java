@@ -1,0 +1,62 @@
+package bri.feedv1.model;
+
+
+import java.util.Optional;
+
+
+// Copy from https://github.com/kaliy/kafka-connect-rss
+
+public class Feed {
+
+    private final String url;
+    private final String title;
+
+    public Feed(String url, String title) {
+        this.url = url;
+        this.title = title;
+    }
+
+    public Optional<String> getTitle() {
+        return Optional.ofNullable(title);
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    @Override
+    public String toString() {
+        return "Feed{" +
+                "url='" + url + '\'' +
+                ", title='" + title + '\'' +
+                '}';
+    }
+
+    public static final class Builder {
+        private String url;
+        private String title;
+
+        private Builder() {
+        }
+
+        public static Builder aFeed() {
+            return new Builder();
+        }
+
+        public Builder withUrl(String url) {
+            this.url = url;
+            return this;
+        }
+
+        public Builder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Feed build() {
+            return new Feed(url, title);
+        }
+
+
+    }
+}
