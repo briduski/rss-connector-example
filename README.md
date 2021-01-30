@@ -4,13 +4,24 @@ Example of how to run Kafka [Connect RSS Source](https://github.com/kaliy/kafka-
 	
 
 
-1. Run in the directory /docker-compose: > docker-compose up -d
+1. Run in the directory /docker-compose:  docker-compose up -d
 
 2. At this point there is one connector source running: RssSourceConnectorSportv1
----> >> The key it is json {"title": "bla", "url": "blabla"}
+<p/>  The key has json format {"title": "bla", "url": "blabla"}
 
 3.  Check Topic sports_topics_v1 using Kafka UI: localhost:8080
-   http://localhost:8080/ui/clusters/Broker1/topics/sports_topics_v1/messages
+ <p/>  http://localhost:8080/ui/clusters/Broker1/topics/sports_topics_v1/messages
+
+
+4. We can Start RssSourceConnectorSportv2
+curl -X POST -s --header "Content-Type: application/json" --data @../connector-config/rss_sport_key_feed_url.json http://localhost:8083/connectors
+---> >> The key it is a string(the url of the feed)
+
+5. Run src/main/java/bri/feedv1/Split.java 
+
+6. Run src/main/java/bri/feedv1/FeedConsumer.java
+
+7. Destroy container: docker-compose down
 
 ## RssSourceConnectorSportv1
  rss-feed-url --> RssSourceConnectorSportv1 --> Kafka Topic (sports_topics_v1)
@@ -34,10 +45,6 @@ Example of how to run Kafka [Connect RSS Source](https://github.com/kaliy/kafka-
    "key.converter.schemas.enable":"false"
 ```
 
-
-4. We can Start RssSourceConnectorSportv2
-curl -X POST -s --header "Content-Type: application/json" --data @../connector-config/rss_sport_key_feed_url.json http://localhost:8083/connectors
----> >> The key it is a string(the url of the feed)
 
 ```
  Connector configuration - RssSourceConnectorSportv2 => file: rss_sport_key_feed_url.json:  
@@ -69,19 +76,13 @@ curl -X POST -s --header "Content-Type: application/json" --data @../connector-c
  
 ```
 
-5. Run src/main/java/bri/feedv1/Split.java 
-6. Run src/main/java/bri/feedv1/FeedConsumer.java
 
-7. Destroy container: docker-compose down
+## Others
 
-
-
-### Others
-#### https://github.com/provectus/kafka-ui/blob/master/docker/kafka-ui.yaml
-#### docker run -e KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=localhost:29092 -e KAFKA_CLUSTERS_0_NAME=local -d provectuslabs/kafka-ui:latest 
+### How to run kafka-ui: 
+<p/> https://github.com/provectus/kafka-ui/blob/master/docker/kafka-ui.yaml
+<p/> docker run -e KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=localhost:29092 -e KAFKA_CLUSTERS_0_NAME=local -d provectuslabs/kafka-ui:latest 
 	
-	
-## Others:
 
 ### Kafka Connect Rest UI useful commands:
 **Overview: https://docs.confluent.io/platform/current/connect/references/restapi.html**
